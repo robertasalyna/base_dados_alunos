@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sampa Uncovered | Curiosidades de São Paulo</title>
+    <!-- Fontes Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           1. VARIÁVEIS E THEMAS (CSS Custom Properties)
+           ========================================================================== */
+        :root[data-theme="dark"] {
+            --bg-main: #0b0f17;
+            --bg-card: rgba(22, 29, 43, 0.7);
+            --bg-card-hover: rgba(30, 41, 59, 0.9);
+            --bg-glass: rgba(15, 23, 42, 0.65);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #ff3b30;
+            --accent-glow: rgba(255, 59, 48, 0.25);
+            --accent-gold: #ffb703;
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        :root[data-theme="light"] {
+            --bg-main: #f1f5f9;
+            --bg-card: rgba(255, 255, 255, 0.85);
+            --bg-card-hover: #ffffff;
+            --bg-glass: rgba(255, 255, 255, 0.75);
+            --border-color: rgba(0, 0, 0, 0.08);
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --accent: #e63946;
+            --accent-glow: rgba(230, 57, 70, 0.18);
+            --accent-gold: #d48806;
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.08);
+        }
+
+        /* ==========================================================================
+           2. RESET & BASE
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Background Animated Glow Elements */
+        .bg-glow {
+            position: fixed;
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent-glow) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            pointer-events: none;
+            filter: blur(60px);
+        }
+        .glow-1 { top: -100px; right: -100px; }
+        .glow-2 { bottom: -100px; left: -100px; }
+
+        /* ==========================================================================
+           3. CONTAINER & HEADER
+           ========================================================================== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 2rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-badge {
+            background: var(--accent);
+            color: #fff;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .theme-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            font-size: 1.2rem;
+        }
+
+        /* ==========================================================================
+           4. HERO SECTION & STATS
+           ========================================================================== */
+        .hero {
+            text-align: center;
+            padding: 4rem 1rem 3rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.8rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1.2rem;
+            letter-spacing: -0.03em;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+            background: linear-gradient(135deg, var(--accent), var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 16px;
+            backdrop-filter: blur(12px);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+        }
+
+        /* ==========================================================================
+           5. CONTROLS (BUSCA & FILTROS)
+           ========================================================================== */
+        .controls-wrapper {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-color);
+            padding: 1.25rem;
+            border-radius: 20px;
+            backdrop-filter: blur(16px);
+            margin-bottom: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .search-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.9rem 1.2rem 0.9rem 3rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: var(--accent);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .categories {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            padding: 0.55rem 1.1rem;
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chip.active, .chip:hover {
+            background: var(--accent);
+            color: #ffffff;
+            border-color: var(--accent);
+        }
+
+        .random-btn {
+            background: linear-gradient(135deg, var(--accent), #b30000);
+            color: white;
+            border: none;
+            padding: 0.65rem 1.4rem;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 14px var(--accent-glow);
+        }
+
+        .random-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================================================
+           6. CARDS GRID
+           ========================================================================== */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.75rem;
+            margin-bottom: 4rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            background: var(--bg-card-hover);
+            border-color: rgba(255, 59, 48, 0.3);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: var(--accent-gold);
+            margin-bottom: 0.75rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            line-height: 1.35;
+        }
+
+        .card-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        /* ==========================================================================
+           7. MODAL (SURPREENDA-ME)
+           ========================================================================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            display: grid;
+            place-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 1.5rem;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            max-width: 550px;
+            width: 100%;
+            position: relative;
+            box-shadow: var(--shadow-lg);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Empty state */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 1rem;
+            color: var(--text-secondary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <div class="logo">
+                <span>SAMPA</span>
+                <span class="logo-badge">360°</span>
+            </div>
+            <div class="header-actions">
+                <button class="theme-btn" id="themeToggle" aria-label="Alternar Tema">🌙</button>
+            </div>
+        </header>
+
+        <!-- HERO -->
+        <section class="hero">
+            <h1>Segredos & Curiosidades da <span>Selva de Pedra</span></h1>
+            <p>Descubra fatos fascinantes, números surpreendentes e mistérios urbanos sobre a maior metrópole do hemisfério sul.</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">1 Mi</span>
+                    <span class="stat-label">Pizzas por dia</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">+300</span>
+                    <span class="stat-label">Rios ocultos</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">400+</span>
+                    <span class="stat-label">Helipontos ativos</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">12.3 Mi</span>
+                    <span class="stat-label">Paulistanos</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTROLS -->
+        <section class="controls-wrapper">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Pesquisar por pizza, rios, MASP, arquitetura...">
+            </div>
+
+            <div class="filter-container">
+                <div class="categories" id="categoryFilters">
+                    <button class="chip active" data-category="todos">Todos</button>
+                    <button class="chip" data-category="gastronomia">Gastronomia</button>
+                    <button class="chip" data-category="historia">História</button>
+                    <button class="chip" data-category="urbano">Urbano & Arquitetura</button>
+                </div>
+                <button class="random-btn" id="randomBtn">⚡ Surpreenda-me!</button>
+            </div>
+        </section>
+
+        <!-- GRID DE CURIOSIDADES -->
+        <main class="cards-grid" id="cardsGrid">
+            <!-- Injetado dinamicamente via JS -->
+        </main>
+
+        <footer>
+            <p>Desenvolvido com Vanilla HTML, CSS & JS. São Paulo — Terra da Garoa.</p>
+        </footer>
+    </div>
+
+    <!-- MODAL RANDÔMICO -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <div class="card-category" id="modalCategory">CATEGORIA</div>
+            <h2 class="card-title" id="modalTitle" style="font-size: 1.6rem; margin-bottom: 1rem;">Título do Fato</h2>
+            <p class="card-text" id="modalText" style="font-size: 1.05rem; line-height: 1.7;">Descrição da curiosidade...</p>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // ==========================================================================
+        // DATA SET: CURIOSIDADES DE SÃO PAULO
+        // ==========================================================================
+        const curiosidades = [
+            {
+                id: 1,
+                titulo: "A Capital Mundial da Pizza",
+                categoria: "gastronomia",
+                texto: "São Paulo é a 2ª cidade que mais consome pizza no mundo, ficando atrás apenas de Nova York. São mais de 560 mil pizzas consumidas por dia na Grande SP — aproximadamente 800 por minuto!",
+                tag: "Gastronomia"
+            },
+            {
+                id: 2,
+                titulo: "Maior comunidade japonesa fora do Japão",
+                categoria: "historia",
+                texto: "O bairro da Liberdade abriga a maior população étnica japonesa do mundo fora do Japão. A imigração começou oficialmente em 1908 com a chegada do navio Kasato Maru no Porto de Santos.",
+                tag: "Cultura & História"
+            },
+            {
+                id: 3,
+                titulo: "A Maior Frota de Helicópteros",
+                categoria: "urbano",
+                texto: "São Paulo possui a maior frota de helicópteros privados do planeta, superando Nova York e Tóquio. A cidade conta com mais de 400 aeronaves registradas e cerca de 200 helipontos no topo dos prédios.",
+                tag: "Mobilidade"
+            },
+            {
+                id: 4,
+                titulo: "Os Rios Ocultos sob o Asfalto",
+                categoria: "urbano",
+                texto: "Sob a malha de concreto de SP fluem mais de 300 rios e riachos canalizados ou enterrados. O Vale do Anhangabaú, a Av. 9 de Julho e a Av. Sumaré cobrem rios que antigamente cortavam a paisagem aberta.",
+                tag: "Geografia"
+            },
+            {
+                id: 5,
+                titulo: "O Vão Livre do MASP",
+                categoria: "urbano",
+                texto: "Projetado pela arquiteta Lina Bo Bardi, o Museu de Arte de São Paulo (MASP) possui um vão livre de 74 metros sustentado por quatro pilares vermelhos. Na época da construção, era o maior vão livre do mundo.",
+                tag: "Arquitetura"
+            },
+            {
+                id: 6,
+                titulo: "Copan: Um edifício com CEP próprio",
+                categoria: "urbano",
+                texto: "Projetado por Oscar Niemeyer, o Edifício Copan é a maior estrutura em concreto armado residencial do Brasil. Com mais de 1.160 apartamentos e cerca de 5.000 residentes, possui um código postal exclusivo.",
+                tag: "Arquitetura"
+            },
+            {
+                id: 7,
+                titulo: "O Cafézinho nas Padarias 24h",
+                categoria: "gastronomia",
+                texto: "São Paulo conta com mais de 6.000 padarias. A tradição do 'pingado com pão na chapa' no balcão é uma instituição cultural reconhecida na rotina matinal da população paulistana.",
+                tag: "Cultura Local"
+            },
+            {
+                id: 8,
+                titulo: "Avenida Paulista já foi residencial",
+                categoria: "historia",
+                texto: "Inaugurada em 1891 pelo engenheiro Joaquim Eugênio de Lima, a Avenida Paulista era originalmente repleta de palacetes e mansões neoclássicas dos prósperos Barões do Café.",
+                tag: "História"
+            }
+        ];
+
+        // ==========================================================================
+        // ESTADO E ELEMENTOS DO DOM
+        // ==========================================================================
+        let currentFilter = 'todos';
+        let searchQuery = '';
+
+        const cardsGrid = document.getElementById('cardsGrid');
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilters = document.getElementById('categoryFilters');
+        const randomBtn = document.getElementById('randomBtn');
+        const themeToggle = document.getElementById('themeToggle');
+        
+        // Modal
+        const modalOverlay = document.getElementById('modalOverlay');
+        const closeModal = document.getElementById('closeModal');
+        const modalCategory = document.getElementById('modalCategory');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalText = document.getElementById('modalText');
+
+        // ==========================================================================
+        // RENDERIZAÇÃO
+        // ==========================================================================
+        function renderCards() {
+            const filteredData = curiosidades.filter(item => {
+                const matchesCategory = currentFilter === 'todos' || item.categoria === currentFilter;
+                const matchesSearch = item.titulo.toLowerCase().includes(searchQuery) || 
+                                      item.texto.toLowerCase().includes(searchQuery);
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filteredData.length === 0) {
+                cardsGrid.innerHTML = `
+                    <div class="empty-state">
+                        <h3>Nenhuma curiosidade encontrada</h3>
+                        <p>Tente buscar por outros termos como "pizza", "arquitetura" ou "história".</p>
+                    </div>
+                `;
+                return;
+            }
+
+            cardsGrid.innerHTML = filteredData.map(item => `
+                <article class="card">
+                    <div>
+                        <div class="card-category">${item.tag}</div>
+                        <h2 class="card-title">${item.titulo}</h2>
+                        <p class="card-text">${item.texto}</p>
+                    </div>
+                    <div class="card-footer">
+                        <span>São Paulo Curiosa</span>
+                        <span>#${item.id.toString().padStart(2, '0')}</span>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        // ==========================================================================
+        // HANDLERS E EVENTOS
+        // ==========================================================================
+        
+        // Filtro por categoria
+        categoryFilters.addEventListener('click', (e) => {
+            if (e.target.classList.contains('chip')) {
+                document.querySelectorAll('.chip').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                currentFilter = e.target.dataset.category;
+                renderCards();
+            }
+        });
+
+        // Busca em tempo real
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value.toLowerCase().trim();
+            renderCards();
+        });
+
+        // Fato Aleatório (Modal)
+        randomBtn.addEventListener('click', () => {
+            const randomIndex = Math.floor(Math.random() * curiosidades.length);
+            const item = curiosidades[randomIndex];
+
+            modalCategory.textContent = item.tag;
+            modalTitle.textContent = item.titulo;
+            modalText.textContent = item.texto;
+
+            modalOverlay.classList.add('active');
+        });
+
+        closeModal.addEventListener('click', () => {
+            modalOverlay.classList.remove('active');
+        });
+
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                modalOverlay.classList.remove('active');
+            }
+        });
+
+        // Toggle Tema Dark / Light
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            themeToggle.textContent = newTheme === 'dark' ? '🌙' : '☀️';
+        });
+
+        // Inicialização
+        renderCards();
+    </script>
+</body>
+</html>
